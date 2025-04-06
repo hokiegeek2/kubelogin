@@ -15,6 +15,8 @@ type AuthProvider struct {
 	IDPIssuerURL                string      // idp-issuer-url
 	ClientID                    string      // client-id
 	ClientSecret                string      // (optional) client-secret
+	TlsCertBundle               string      // (optional) tls-cert-bundle
+	TlsCertBundlePassword       string      // (optional) tls-cert-bundle-password
 	IDPCertificateAuthority     string      // (optional) idp-certificate-authority
 	IDPCertificateAuthorityData string      // (optional) idp-certificate-authority-data
 	ExtraScopes                 []string    // (optional) extra-scopes

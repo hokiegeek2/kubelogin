@@ -15,6 +15,8 @@ type setupOptions struct {
 	IssuerURL             string
 	ClientID              string
 	ClientSecret          string
+	TlsCertBundle         string
+	TlsCertBundlePassword string
 	ExtraScopes           []string
 	UseAccessToken        bool
 	tlsOptions            tlsOptions
@@ -26,6 +28,8 @@ func (o *setupOptions) addFlags(f *pflag.FlagSet) {
 	f.StringVar(&o.IssuerURL, "oidc-issuer-url", "", "Issuer URL of the provider")
 	f.StringVar(&o.ClientID, "oidc-client-id", "", "Client ID of the provider")
 	f.StringVar(&o.ClientSecret, "oidc-client-secret", "", "Client secret of the provider")
+	f.StringVar(&o.TlsCertBundle, "tls-cert-bundle", "", "User p12 cert bundle for mTLS")
+	f.StringVar(&o.TlsCertBundlePassword, "tls-cert-bundle-password", "", "Password for user cert p12 bundle")
 	f.StringSliceVar(&o.ExtraScopes, "oidc-extra-scope", nil, "Scopes to request to the provider")
 	f.BoolVar(&o.UseAccessToken, "oidc-use-access-token", false, "Instead of using the id_token, use the access_token to authenticate to Kubernetes")
 	o.tlsOptions.addFlags(f)
@@ -71,15 +75,17 @@ func (cmd *Setup) New() *cobra.Command {
 				return fmt.Errorf("setup: %w", err)
 			}
 			in := setup.Input{
-				IssuerURL:       o.IssuerURL,
-				ClientID:        o.ClientID,
-				ClientSecret:    o.ClientSecret,
-				ExtraScopes:     o.ExtraScopes,
-				UseAccessToken:  o.UseAccessToken,
-				PKCEMethod:      pkceMethod,
-				GrantOptionSet:  grantOptionSet,
-				TLSClientConfig: o.tlsOptions.tlsClientConfig(),
-				ChangedFlags:    changedFlags,
+				IssuerURL:             o.IssuerURL,
+				ClientID:              o.ClientID,
+				ClientSecret:          o.ClientSecret,
+				TlsCertBundle:         o.TlsCertBundle,
+				TlsCertBundlePassword: o.TlsCertBundlePassword,
+				ExtraScopes:           o.ExtraScopes,
+				UseAccessToken:        o.UseAccessToken,
+				PKCEMethod:            pkceMethod,
+				GrantOptionSet:        grantOptionSet,
+				TLSClientConfig:       o.tlsOptions.tlsClientConfig(),
+				ChangedFlags:          changedFlags,
 			}
 			if in.IssuerURL == "" || in.ClientID == "" {
 				return c.Help()

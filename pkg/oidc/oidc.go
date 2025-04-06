@@ -11,12 +11,14 @@ import (
 
 // Provider represents an OIDC provider.
 type Provider struct {
-	IssuerURL      string
-	ClientID       string
-	ClientSecret   string   // optional
-	ExtraScopes    []string // optional
-	PKCEMethod     PKCEMethod
-	UseAccessToken bool
+	IssuerURL             string
+	ClientID              string
+	ClientSecret          string   // optional
+	TlsCertBundle         string   // optional
+	TlsCertBundlePassword string   // optional
+	ExtraScopes           []string // optional
+	PKCEMethod            PKCEMethod
+	UseAccessToken        bool
 }
 
 // PKCEMethod represents a preferred method of PKCE.

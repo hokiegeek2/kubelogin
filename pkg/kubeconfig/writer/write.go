@@ -46,6 +46,8 @@ func copyAuthProviderConfig(p kubeconfig.AuthProvider, m map[string]string) {
 	setOrDeleteKey(m, "idp-issuer-url", p.IDPIssuerURL)
 	setOrDeleteKey(m, "client-id", p.ClientID)
 	setOrDeleteKey(m, "client-secret", p.ClientSecret)
+	setOrDeleteKey(m, "tls-cert-bundle", p.TlsCertBundle)
+	setOrDeleteKey(m, "tls-cert-bundle-password", p.TlsCertBundlePassword)
 	setOrDeleteKey(m, "idp-certificate-authority", p.IDPCertificateAuthority)
 	setOrDeleteKey(m, "idp-certificate-authority-data", p.IDPCertificateAuthorityData)
 	extraScopes := strings.Join(p.ExtraScopes, ",")

@@ -39,27 +39,31 @@ var setupTemplate = template.Must(template.New("setup.md").Funcs(template.FuncMa
 }).Parse(setupMarkdown))
 
 type Input struct {
-	IssuerURL       string
-	ClientID        string
-	ClientSecret    string
-	ExtraScopes     []string
-	UseAccessToken  bool
-	PKCEMethod      oidc.PKCEMethod
-	GrantOptionSet  authentication.GrantOptionSet
-	TLSClientConfig tlsclientconfig.Config
-	ChangedFlags    []string
+	IssuerURL             string
+	ClientID              string
+	ClientSecret          string
+	TlsCertBundle         string
+	TlsCertBundlePassword string
+	ExtraScopes           []string
+	UseAccessToken        bool
+	PKCEMethod            oidc.PKCEMethod
+	GrantOptionSet        authentication.GrantOptionSet
+	TLSClientConfig       tlsclientconfig.Config
+	ChangedFlags          []string
 }
 
 func (u Setup) Do(ctx context.Context, in Input) error {
 	u.Logger.Printf("Authentication in progress...")
 	out, err := u.Authentication.Do(ctx, authentication.Input{
 		Provider: oidc.Provider{
-			IssuerURL:      in.IssuerURL,
-			ClientID:       in.ClientID,
-			ClientSecret:   in.ClientSecret,
-			ExtraScopes:    in.ExtraScopes,
-			PKCEMethod:     in.PKCEMethod,
-			UseAccessToken: in.UseAccessToken,
+			IssuerURL:             in.IssuerURL,
+			ClientID:              in.ClientID,
+			ClientSecret:          in.ClientSecret,
+			TlsCertBundle:         in.TlsCertBundle,
+			TlsCertBundlePassword: in.TlsCertBundlePassword,
+			ExtraScopes:           in.ExtraScopes,
+			PKCEMethod:            in.PKCEMethod,
+			UseAccessToken:        in.UseAccessToken,
 		},
 		GrantOptionSet:  in.GrantOptionSet,
 		TLSClientConfig: in.TLSClientConfig,
